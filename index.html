@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b3d2e" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DailyFrame" />
+    <title>DailyFrame</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="app-bg" aria-hidden="true"></div>
+    <header class="topbar">
+      <div>
+        <h1>DailyFrame</h1>
+        <p class="subtitle">Daily body progress</p>
+      </div>
+      <div id="net-indicator" class="pill">Checking network...</div>
+    </header>
+
+    <nav class="tabs" aria-label="Main tabs">
+      <button class="tab is-active" data-tab="home">Home</button>
+      <button class="tab" data-tab="entry">Add/Edit</button>
+      <button class="tab" data-tab="timeline">Timeline</button>
+      <button class="tab" data-tab="compare">Compare</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <main>
+      <section id="home" class="panel is-active" aria-labelledby="home-heading">
+        <h2 id="home-heading">Today</h2>
+        <div class="stats-grid">
+          <article class="stat">
+            <span>Current streak</span>
+            <strong id="current-streak">0</strong>
+          </article>
+          <article class="stat">
+            <span>Longest streak</span>
+            <strong id="longest-streak">0</strong>
+          </article>
+        </div>
+        <article class="card">
+          <h3>Today's entry</h3>
+          <div id="today-preview" class="today-preview muted">No entry for today yet.</div>
+        </article>
+      </section>
+
+      <section id="entry" class="panel" aria-labelledby="entry-heading">
+        <h2 id="entry-heading">Add or Edit Entry</h2>
+        <form id="entry-form" class="card">
+          <label>
+            Date
+            <input id="entry-date" type="date" required />
+          </label>
+
+          <label>
+            Take Photo (rear camera)
+            <input id="entry-image" type="file" accept="image/*" capture="environment" />
+          </label>
+
+          <label>
+            Upload from Gallery
+            <input id="entry-image-gallery" type="file" accept="image/*" />
+          </label>
+
+          <figure class="preview-wrap">
+            <img id="entry-preview" alt="Selected entry preview" hidden />
+            <figcaption id="entry-preview-caption" class="muted">No image selected</figcaption>
+          </figure>
+
+          <label>
+            Weight
+            <div class="weight-row">
+              <input id="entry-weight" type="number" min="0" max="999" step="0.1" placeholder="e.g. 75.5" />
+              <span id="weight-unit-label" class="unit-badge">kg</span>
+            </div>
+          </label>
+
+          <label>
+            Note
+            <textarea id="entry-note" rows="3" maxlength="500" placeholder="How did today go?"></textarea>
+          </label>
+
+          <button id="save-entry" type="submit" class="cta">Save Entry</button>
+          <p id="entry-status" class="muted" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section id="timeline" class="panel" aria-labelledby="timeline-heading">
+        <h2 id="timeline-heading">Timeline</h2>
+        <div id="timeline-list" class="timeline"></div>
+      </section>
+
+      <section id="compare" class="panel" aria-labelledby="compare-heading">
+        <h2 id="compare-heading">Compare Progress</h2>
+        <div class="card">
+          <div class="compare-controls">
+            <label>
+              First date
+              <input id="compare-date-a" type="date" />
+            </label>
+            <label>
+              Second date
+              <input id="compare-date-b" type="date" />
+            </label>
+            <button id="run-compare" class="cta" type="button">Compare</button>
+          </div>
+          <p id="compare-meta" class="muted"></p>
+          <div id="compare-result" class="compare-result"></div>
+        </div>
+      </section>
+
+      <section id="settings" class="panel" aria-labelledby="settings-heading">
+        <h2 id="settings-heading">Settings</h2>
+
+        <div class="card settings-grid">
+          <p class="settings-section-title">Weight Unit</p>
+          <div class="unit-toggle-row">
+            <button id="weight-unit-kg" class="unit-toggle active" type="button">kg</button>
+            <button id="weight-unit-lbs" class="unit-toggle" type="button">lbs</button>
+          </div>
+        </div>
+
+        <div class="card settings-grid">
+          <p class="settings-section-title">Backup &amp; Export</p>
+          <button id="export-backup" type="button">Export Backup (JSON)</button>
+          <label class="file-btn" for="import-backup-input">Import Backup</label>
+          <input id="import-backup-input" type="file" accept="application/json" hidden />
+          <button id="export-zip" type="button">Download All as ZIP</button>
+        </div>
+
+        <div class="card settings-grid">
+          <p class="settings-section-title">Progress Video</p>
+          <div class="video-range-row">
+            <label>
+              From
+              <input id="video-date-from" type="date" />
+            </label>
+            <label>
+              To
+              <input id="video-date-to" type="date" />
+            </label>
+          </div>
+          <label>
+            Duration (seconds)
+            <input id="video-duration" type="number" min="5" max="30" value="10" />
+          </label>
+          <button id="export-video" type="button" class="cta">Generate Progress Video (9:16)</button>
+          <progress id="video-progress" max="100" value="0" hidden></progress>
+          <p id="video-status" class="muted" role="status" aria-live="polite"></p>
+          <div id="video-player-container" class="video-player-container" hidden>
+            <video id="video-player" class="video-player" controls playsinline></video>
+            <button id="video-download-btn" type="button" class="cta">&#8659; Download Video</button>
+          </div>
+          <p class="muted">On iOS, a JSON image set is exported as fallback when recording is unavailable.</p>
+        </div>
+
+        <div class="card settings-grid">
+          <p class="settings-section-title">Data</p>
+          <button id="clear-all-data" type="button" class="danger-btn">Clear All Data</button>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
