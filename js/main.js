@@ -250,9 +250,9 @@ function wireSettings() {
     const fromDate = els.videoDateFrom.value || (entriesCache[0]?.date ?? todayISO);
     const toDate = els.videoDateTo.value || todayISO;
 
-    const rangeEntries = entriesCache.filter(
-      (e) => e.date >= fromDate && e.date <= toDate
-    );
+    const rangeEntries = entriesCache
+      .filter((e) => e.date >= fromDate && e.date <= toDate)
+      .map((e) => ({ ...e, _displayUnit: getWeightUnit() }));
 
     if (!rangeEntries.length) {
       els.videoStatus.textContent = "No entries in the selected date range.";

@@ -140,7 +140,9 @@ h2 {
 }
 
 .panel.is-active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .card {
@@ -150,6 +152,9 @@ h2 {
   backdrop-filter: blur(16px) saturate(165%);
   box-shadow: var(--ios-shadow);
   padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .stats-grid {
@@ -350,7 +355,79 @@ progress {
   }
 }
 
-/* ── Video date range ────────────────────────────────────────────────────────── */
+/* ── Settings row list (iOS-style grouped list) ─────────────────────────────── */
+.settings-row-list {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--ios-line);
+}
+
+.settings-row-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 14px;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid var(--ios-line);
+  color: var(--ios-text);
+  font-size: 0.97rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 120ms ease;
+}
+
+.settings-row-btn:last-child {
+  border-bottom: 0;
+}
+
+.settings-row-btn:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.settings-row-chevron {
+  color: var(--ios-subtle);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* ── Settings inline fields (date/duration row) ─────────────────────────────── */
+.settings-inline-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settings-inline-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.settings-inline-label.full-width {
+  /* no-op, kept for compat */
+}
+
+.settings-date-input {
+  border: 1px solid var(--ios-line);
+  border-radius: 10px;
+  padding: 11px 12px;
+  background: #fff;
+  font-size: 1rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.ios-note {
+  font-size: 0.8rem;
+}
+
+/* ── Video date range (old class kept for compat) ───────────────────────────── */
 .video-range-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -553,11 +630,12 @@ progress {
 /* ── Settings sections ──────────────────────────────────────────────────────── */
 .settings-section-title {
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   color: var(--ios-subtle);
-  margin: 4px 0 0;
+  margin: 0;
+  padding-bottom: 2px;
 }
 
 /* ── Danger button ──────────────────────────────────────────────────────────── */

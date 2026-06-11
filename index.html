@@ -117,7 +117,8 @@
       <section id="settings" class="panel" aria-labelledby="settings-heading">
         <h2 id="settings-heading">Settings</h2>
 
-        <div class="card settings-grid">
+        <!-- Weight Unit -->
+        <div class="card">
           <p class="settings-section-title">Weight Unit</p>
           <div class="unit-toggle-row">
             <button id="weight-unit-kg" class="unit-toggle active" type="button">kg</button>
@@ -125,43 +126,57 @@
           </div>
         </div>
 
-        <div class="card settings-grid">
-          <p class="settings-section-title">Backup &amp; Export</p>
-          <button id="export-backup" type="button">Export Backup (JSON)</button>
-          <label class="file-btn" for="import-backup-input">Import Backup</label>
-          <input id="import-backup-input" type="file" accept="application/json" hidden />
-          <button id="export-zip" type="button">Download All as ZIP</button>
+        <!-- Backup -->
+        <div class="card">
+          <p class="settings-section-title">Backup &amp; Restore</p>
+          <div class="settings-row-list">
+            <button id="export-backup" class="settings-row-btn" type="button">
+              <span>&#128190; Export Backup (JSON)</span>
+              <span class="settings-row-chevron">›</span>
+            </button>
+            <label class="settings-row-btn" for="import-backup-input">
+              <span>&#128228; Import Backup</span>
+              <span class="settings-row-chevron">›</span>
+            </label>
+            <input id="import-backup-input" type="file" accept="application/json" hidden />
+            <button id="export-zip" class="settings-row-btn" type="button">
+              <span>&#128230; Download All as ZIP</span>
+              <span class="settings-row-chevron">›</span>
+            </button>
+          </div>
         </div>
 
-        <div class="card settings-grid">
+        <!-- Video -->
+        <div class="card">
           <p class="settings-section-title">Progress Video</p>
-          <div class="video-range-row">
-            <label>
+          <div class="settings-inline-fields">
+            <label class="settings-inline-label">
               From
-              <input id="video-date-from" type="date" />
+              <input id="video-date-from" type="date" class="settings-date-input" />
             </label>
-            <label>
+            <label class="settings-inline-label">
               To
-              <input id="video-date-to" type="date" />
+              <input id="video-date-to" type="date" class="settings-date-input" />
+            </label>
+            <label class="settings-inline-label full-width">
+              Duration (seconds)
+              <input id="video-duration" type="number" min="5" max="30" value="10" class="settings-date-input" />
             </label>
           </div>
-          <label>
-            Duration (seconds)
-            <input id="video-duration" type="number" min="5" max="30" value="10" />
-          </label>
-          <button id="export-video" type="button" class="cta">Generate Progress Video (9:16)</button>
+          <button id="export-video" type="button" class="cta">&#9654; Generate Video (9:16)</button>
           <progress id="video-progress" max="100" value="0" hidden></progress>
           <p id="video-status" class="muted" role="status" aria-live="polite"></p>
           <div id="video-player-container" class="video-player-container" hidden>
             <video id="video-player" class="video-player" controls playsinline></video>
             <button id="video-download-btn" type="button" class="cta">&#8659; Download Video</button>
           </div>
-          <p class="muted">On iOS, a JSON image set is exported as fallback when recording is unavailable.</p>
+          <p class="muted ios-note">iOS exports a JSON image set when video recording is unavailable.</p>
         </div>
 
-        <div class="card settings-grid">
+        <!-- Danger -->
+        <div class="card">
           <p class="settings-section-title">Data</p>
-          <button id="clear-all-data" type="button" class="danger-btn">Clear All Data</button>
+          <button id="clear-all-data" type="button" class="danger-btn">&#128465; Clear All Data</button>
         </div>
       </section>
     </main>

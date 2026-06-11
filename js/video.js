@@ -32,11 +32,33 @@ async function drawEntry(canvas, ctx, entry) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(img, x, y, w, h);
 
+  // ── Bottom date bar ──────────────────────────────────────────────────────
   ctx.fillStyle = "rgba(0,0,0,0.55)";
   ctx.fillRect(18, canvas.height - 70, canvas.width - 36, 46);
   ctx.fillStyle = "#fff";
   ctx.font = "600 26px 'Segoe UI', sans-serif";
   ctx.fillText(entry.date, 30, canvas.height - 38);
+
+  // ── Top-right weight badge ───────────────────────────────────────────────
+  if (entry.weightKg != null) {
+    const unit = entry._displayUnit || "kg";
+    const displayVal = unit === "lbs"
+      ? (Math.round(entry.weightKg * 2.20462 * 10) / 10)
+      : (Math.round(entry.weightKg * 10) / 10);
+    const label = `${displayVal} ${unit}`;
+    ctx.font = "bold 32px 'Segoe UI', sans-serif";
+    const tw = ctx.measureText(label).width;
+    const padX = 18, badgeH = 52, by = 18;
+    const bx = canvas.width - tw - padX * 2 - 18;
+    // pill background
+    ctx.fillStyle = "rgba(0,0,0,0.52)";
+    ctx.beginPath();
+    ctx.roundRect(bx, by, tw + padX * 2, badgeH, 12);
+    ctx.fill();
+    // text
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(label, bx + padX, by + badgeH - 12);
+  }
 
   URL.revokeObjectURL(url);
 }
@@ -93,8 +115,33 @@ export async function generateProgressVideo(entries, durationSeconds, onProgress
     return;
   }
 
-  const width = 720;
-  const height = 1280;
+  // Determine canvas size from the maximum natural dimensions across all
+  // entries so quality matches source photos. Cap at 1080×1920 (9:16 Full HD)
+  // to avoid running out of GPU memory on mobile browsers.
+  const MAX_W = 1080;
+  const MAX_H = 1920;
+  let bestW = 720, bestH = 1280;
+  for (const entry of entries) {
+    const probeUrl = URL.createObjectURL(entry.image);
+    const probe = new Image();
+    probe.src = probeUrl;
+    await probe.decode().catch(() => {});
+    URL.revokeObjectURL(probeUrl);
+    if (probe.naturalWidth > bestW) {
+      bestW = probe.naturalWidth;
+      bestH = probe.naturalHeight;
+    }
+  }
+  // Enforce 9:16 ratio and cap
+  const ratio = 9 / 16;
+  if (bestW / bestH > ratio) {
+    bestW = Math.round(bestH * ratio);
+  } else {
+    bestH = Math.round(bestW / ratio);
+  }
+  const width  = Math.min(bestW, MAX_W);
+  const height = Math.min(bestH, MAX_H);
+
   const fps = 30;
   const totalMs = Math.max(5000, Math.min(30000, durationSeconds * 1000));
   const frameMs = Math.max(120, Math.floor(totalMs / entries.length));
@@ -102,6 +149,8 @@ export async function generateProgressVideo(entries, durationSeconds, onProgress
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext("2d", { alpha: false });
+
+  const bitrate = width >= 1000 ? 6_000_000 : 2_500_000;
 
   const mimeType = pickMimeType();
   if (!mimeType) {
@@ -111,7 +160,7 @@ export async function generateProgressVideo(entries, durationSeconds, onProgress
 
   const stream = canvas.captureStream(fps);
   const chunks = [];
-  const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 2_500_000 });
+  const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: bitrate });
   recorder.ondataavailable = (event) => {
     if (event.data && event.data.size > 0) {
       chunks.push(event.data);
