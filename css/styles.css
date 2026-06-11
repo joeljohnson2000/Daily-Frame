@@ -1,0 +1,573 @@
+:root {
+  --ios-bg: #f2f2f7;
+  --ios-card: rgba(255, 255, 255, 0.72);
+  --ios-card-solid: #ffffff;
+  --ios-text: #111111;
+  --ios-subtle: #667085;
+  --ios-line: rgba(60, 60, 67, 0.18);
+  --ios-blue: #007aff;
+  --ios-blue-press: #0062cc;
+  --ios-danger: #ff3b30;
+  --ios-radius: 18px;
+  --ios-shadow: 0 10px 30px rgba(17, 17, 17, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ios-text);
+  font-family: "SF Pro Text", "SF Pro Display", "Helvetica Neue", -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0, 122, 255, 0.12), transparent 42%),
+    radial-gradient(circle at 100% 15%, rgba(94, 92, 230, 0.12), transparent 38%),
+    var(--ios-bg);
+}
+
+body {
+  max-width: 900px;
+  margin-inline: auto;
+  padding: max(12px, env(safe-area-inset-top)) 12px calc(92px + env(safe-area-inset-bottom));
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), transparent 38%);
+  z-index: -1;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 1.6rem;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.24rem;
+}
+
+.topbar {
+  position: sticky;
+  top: max(6px, env(safe-area-inset-top));
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(18px) saturate(165%);
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--ios-subtle);
+  font-size: 0.95rem;
+}
+
+.pill {
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: rgba(0, 122, 255, 0.12);
+  color: #0056b3;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.pill.offline {
+  background: rgba(255, 59, 48, 0.14);
+  color: #ae2018;
+}
+
+.tabs {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 8px;
+  width: min(900px, calc(100% - 16px));
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: 0 8px 30px rgba(17, 17, 17, 0.12);
+  z-index: 40;
+}
+
+.tab {
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  padding: 10px 6px;
+  color: #4b5565;
+  font-weight: 600;
+  font-size: 0.82rem;
+  transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.tab:active {
+  transform: scale(0.97);
+}
+
+.tab.is-active {
+  color: var(--ios-blue);
+  background: rgba(0, 122, 255, 0.12);
+}
+
+.panel {
+  display: none;
+  animation: panel-in 220ms ease;
+}
+
+.panel.is-active {
+  display: block;
+}
+
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: var(--ios-radius);
+  background: var(--ios-card);
+  backdrop-filter: blur(16px) saturate(165%);
+  box-shadow: var(--ios-shadow);
+  padding: 14px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.stat {
+  border-radius: var(--ios-radius);
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.8), rgba(246, 248, 252, 0.6));
+}
+
+.stat span {
+  display: block;
+  color: var(--ios-subtle);
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.stat strong {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+input,
+textarea,
+button,
+.file-btn {
+  font: inherit;
+}
+
+input,
+textarea {
+  border: 1px solid var(--ios-line);
+  border-radius: 12px;
+  padding: 11px 12px;
+  background: var(--ios-card-solid);
+  color: var(--ios-text);
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(0, 122, 255, 0.25);
+  border-color: rgba(0, 122, 255, 0.6);
+}
+
+button,
+.file-btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: rgba(120, 120, 128, 0.12);
+  color: var(--ios-text);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 120ms ease, background-color 120ms ease, opacity 120ms ease;
+}
+
+button.cta {
+  background: var(--ios-blue);
+  color: #ffffff;
+}
+
+button.cta:active {
+  background: var(--ios-blue-press);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.muted {
+  color: var(--ios-subtle);
+  margin: 0;
+}
+
+.preview-wrap {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+#entry-preview {
+  width: 100%;
+  border-radius: 14px;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.today-preview {
+  min-height: 84px;
+}
+
+.timeline {
+  display: grid;
+  gap: 10px;
+}
+
+.timeline-item {
+  display: grid;
+  gap: 8px;
+  border-radius: var(--ios-radius);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.timeline-item img {
+  width: 100%;
+  border-radius: 12px;
+  min-height: 180px;
+  background: #eff3f8;
+  object-fit: cover;
+}
+
+.compare-controls {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compare-controls .cta {
+  grid-column: 1 / -1;
+}
+
+.compare-result {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.compare-card {
+  border-radius: 14px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.compare-card img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.settings-grid {
+  display: grid;
+  gap: 10px;
+}
+
+progress {
+  width: 100%;
+  height: 8px;
+}
+
+@media (max-width: 680px) {
+  .compare-controls,
+  .compare-result {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    padding: 8px 6px;
+    gap: 4px;
+  }
+
+  .tab {
+    font-size: 0.74rem;
+    padding: 10px 4px;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Video date range ────────────────────────────────────────────────────────── */
+.video-range-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ── Weight field ──────────────────────────────────────────────────────────── */
+.weight-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weight-row input {
+  flex: 1;
+}
+
+.unit-badge {
+  font-weight: 700;
+  color: var(--ios-blue);
+  font-size: 0.9rem;
+  min-width: 28px;
+}
+
+/* ── Unit toggle buttons ────────────────────────────────────────────────────── */
+.unit-toggle-row {
+  display: flex;
+  gap: 8px;
+}
+
+.unit-toggle {
+  flex: 1;
+  border: 1px solid var(--ios-line);
+  border-radius: 10px;
+  background: rgba(120, 120, 128, 0.1);
+  color: var(--ios-subtle);
+  padding: 10px;
+  font-weight: 600;
+}
+
+.unit-toggle.active {
+  background: var(--ios-blue);
+  border-color: var(--ios-blue);
+  color: #fff;
+}
+
+/* ── Camera row ─────────────────────────────────────────────────────────────── */
+.camera-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.camera-row button {
+  flex: 1;
+  border-radius: 12px;
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--ios-blue);
+  font-weight: 600;
+  border: 1px solid rgba(0, 122, 255, 0.25);
+}
+
+.cam-timer-select {
+  border: 1px solid var(--ios-line);
+  border-radius: 10px;
+  padding: 10px;
+  background: #fff;
+  min-width: 96px;
+}
+
+/* ── Camera fullscreen modal ────────────────────────────────────────────────── */
+.camera-modal {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.camera-modal[hidden] {
+  display: none;
+}
+
+.camera-stream {
+  flex: 1;
+  width: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.camera-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.camera-controls-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 24px calc(20px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
+.shutter-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: transform 100ms ease;
+}
+
+.shutter-btn:active {
+  transform: scale(0.9);
+}
+
+.camera-cancel-btn {
+  color: #fff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+}
+
+/* ── Timeline per-entry delete ──────────────────────────────────────────────── */
+.tl-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px 0;
+}
+
+.tl-meta {
+  padding: 4px 10px 10px;
+}
+
+.tl-weight {
+  font-weight: 700;
+  color: var(--ios-blue);
+  margin: 0 0 4px;
+}
+
+.tl-delete-btn {
+  border: 0;
+  background: transparent;
+  color: #ff3b30;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.tl-delete-btn:active {
+  background: rgba(255, 59, 48, 0.12);
+}
+
+/* ── Compare weight display ─────────────────────────────────────────────────── */
+.compare-weight {
+  font-weight: 700;
+  color: var(--ios-blue);
+  margin: 4px 0;
+}
+
+/* ── In-app video player ────────────────────────────────────────────────────── */
+.video-player-container {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.video-player-container[hidden] {
+  display: none;
+}
+
+.video-player {
+  width: 100%;
+  border-radius: 14px;
+  background: #000;
+  aspect-ratio: 9 / 16;
+  max-height: 480px;
+  object-fit: contain;
+}
+
+/* ── Settings sections ──────────────────────────────────────────────────────── */
+.settings-section-title {
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ios-subtle);
+  margin: 4px 0 0;
+}
+
+/* ── Danger button ──────────────────────────────────────────────────────────── */
+.danger-btn {
+  border: 1px solid rgba(255, 59, 48, 0.35) !important;
+  background: rgba(255, 59, 48, 0.08) !important;
+  color: #ff3b30 !important;
+  font-weight: 700;
+}
+
+.danger-btn:active {
+  background: rgba(255, 59, 48, 0.18) !important;
+}

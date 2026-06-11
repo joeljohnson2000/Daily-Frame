@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="TrackLens icon">
+  <rect width="512" height="512" rx="114" fill="#0b3d2e"/>
+  <circle cx="256" cy="256" r="150" fill="#1c7f5d"/>
+  <circle cx="256" cy="256" r="76" fill="#f7c948"/>
+  <path d="M128 388h256" stroke="#fff" stroke-width="32" stroke-linecap="round"/>
+</svg>
